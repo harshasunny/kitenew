@@ -6932,17 +6932,18 @@ angular.module('mm.core')
             return url;
         };
         self.openFile = function(path) {
+    
             var deferred = $q.defer();
             if ($mmApp.isDesktop()) {
                 if (require('electron').ipcRenderer.sendSync('openItem', path)) {
                     deferred.resolve();
                 } else {
-                    $mmLang.translateAndRejectDeferred(deferred, 'mm.core.hour');
                     $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                 }
             } else if (window.plugins) {
                 var extension = $mmFS.getFileExtension(path),
                     mimetype = $mmFS.getMimeType(extension);
+                    console.log('I am here');
                 if (ionic.Platform.isAndroid() && window.plugins.webintent) {
                     var iParams = {
                         action: "android.intent.action.VIEW",
@@ -6963,7 +6964,7 @@ angular.module('mm.core')
                             if (!extension || extension.indexOf('/') > -1 || extension.indexOf('\\') > -1) {
                                 $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoextension');
                             } else {
-                                $mmLang.translateAndRejectDeferred(deferred, 'mm.core.hide');
+                                //App error coming from here @Harsha
                                 $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                             }
                         }
@@ -6981,7 +6982,6 @@ angular.module('mm.core')
                                 deferred.resolve();
                             },
                             function(error) {
-                                $log.debug('Error opening with handleDocumentWithURL' + path);
                                 if(error == 53) {
                                     $log.error('No app that handles this file type.');
                                 }
@@ -7059,7 +7059,6 @@ angular.module('mm.core')
                             $log.debug('action: ' + iParams.action);
                             $log.debug('url: ' + iParams.url);
                             $log.debug('type: ' + iParams.type);
-                            $mmLang.translateAndRejectDeferred(deferred, 'mm.core.help');
                             $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                         }
                     );
