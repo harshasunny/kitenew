@@ -6937,6 +6937,7 @@ angular.module('mm.core')
                 if (require('electron').ipcRenderer.sendSync('openItem', path)) {
                     deferred.resolve();
                 } else {
+                    $mmLang.translateAndRejectDeferred(deferred, 'mm.core.hour');
                     $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                 }
             } else if (window.plugins) {
@@ -6962,6 +6963,7 @@ angular.module('mm.core')
                             if (!extension || extension.indexOf('/') > -1 || extension.indexOf('\\') > -1) {
                                 $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoextension');
                             } else {
+                                $mmLang.translateAndRejectDeferred(deferred, 'mm.core.hide');
                                 $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                             }
                         }
@@ -7057,6 +7059,7 @@ angular.module('mm.core')
                             $log.debug('action: ' + iParams.action);
                             $log.debug('url: ' + iParams.url);
                             $log.debug('type: ' + iParams.type);
+                            $mmLang.translateAndRejectDeferred(deferred, 'mm.core.help');
                             $mmLang.translateAndRejectDeferred(deferred, 'mm.core.erroropenfilenoapp');
                         }
                     );
